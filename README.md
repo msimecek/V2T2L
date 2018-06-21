@@ -1,7 +1,7 @@
 # V2T2L
 "Voice to Text to Language" - solution for live conference translations. Modular, scalable, powered by Microsoft Azure.
 
-
+> **This repo is still work in progress, being regularly updated.**
 
 ## Scenario
 
@@ -32,6 +32,27 @@ Technology used:
 * **Storage Queues** - decoupling backend communication
 * **Azure Functions** - orchestration of translations, sending results to attendees
 * **Microsoft Translator** - translation to various languages, with neural networks (where possible)
+
+## Prerequisites
+
+To run the solution locally, you will need **[Visual Studio 2017](https://visualstudio.microsoft.com/vs/)** with **Azure development** workload and [**Azure Functions tools**](https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs) installed.
+
+Besides that there are a few cloud dependencies:
+
+* **Speech API** - create new resource in Azure or get a [free key](https://azure.microsoft.com/en-us/try/cognitive-services/?api=speech-services).
+* **Azure Storage** - you can use local emulator, or create new Storage Account in Azure.
+* **Translator Text** - create new resource in Azure.
+
+## Solution structure
+
+Most of our code is .NET, so we have used standard Solution-based structure. There are the following projects:
+
+* **AttendeeApi** is the SignalR hub, where attendees connect from their devices. It takes care of registration and also distributes translations.
+* **AttendeeApp** is the HTML/JavaScript client application which attendees use to choose a language and consume content.
+* **Common** is just a Portable Class Library with constants and classes used by other projects.
+* **HubApi** contains the recording web application and hosts the SignalR hub where speakers connect.
+* **StreamGenerator** is a simple console app which sends stream of bytes to the API (from properly formatted WAV file).
+* **TranslationOrchestrator** is a set of Azure Functions which take care of translating text to all supported languages in parallel and sending notification to *AttendeeApi*.
 
 ## Limitations
 
