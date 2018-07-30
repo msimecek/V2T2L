@@ -5,7 +5,7 @@
 
 ## Scenario
 
-We have built this prototype in cooperation with Newton Technologies. The goal is to provide a solution for near real-time conference transcription & translation.
+This is a prototype, the goal is to provide a solution for near real-time conference transcription & translation.
 
 1. English speaker is giving a presentation.
 2. Our application streams voice from microphone to the cloud.
@@ -56,8 +56,4 @@ Most of our code is .NET, so we have used standard Solution-based structure. The
 
 ## Limitations
 
-In its current state, the solution works from start to end. There are a few limitations though.
-
-* Backend processing sometimes takes around 10 seconds, which will be optimized by eliminating queues and using Event Grid.
-* Speech to text ends after approximately 10 minutes, due to the limitation of S2T service. We are investigating possible workarounds.
-* S2T services sometimes collects multiple sentences before returning a result which results in long delays between spoken word and translation. We are investigating different strategies how to address this.
+In its current state, the solution works from start to end. There are a few steps to optimize - especially the UI and SignalR communication - but overall the process is functional.
