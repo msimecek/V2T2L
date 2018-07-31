@@ -72,3 +72,16 @@ Name, Type, Description
 | transcript           | Event Grid Topic     | Topic with event subscription.<br />Sending event type `TranscriptAdded` to *orchestrator* Function. |
 | storage              | Storage Account      | Common Storage account for transcripts, translations and *orchestrator*. |
 
+## Custom speech model
+
+Use http://production-neu.cris.ai if Speech service was created in North Europe.
+
+Connect your Speech service subsription key with CRIS (profile -> subscriptions).
+
+Prepare WAV chunks and TXT with their transcription.
+
+ZIP audio files.
+
+Upload Acoustic data and create Acoustic model.
+
+Create Endpoint.
