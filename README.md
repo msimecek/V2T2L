@@ -18,7 +18,7 @@ The solution currently supports English speakers, but is designed in a way that 
 
 ## Architecture
 
-Cornerstone of this solution is [Speech to Text API](https://azure.microsoft.com/en-us/services/cognitive-services/speech-to-text/), which is part of [Microsoft Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/).
+Cornerstone of this solution is [Speech Service](https://docs.microsoft.com/en-us/azure/cognitive-services/Speech/Home), which is part of [Microsoft Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/).
 
 ![](_images/V2T2L.png)
 
@@ -54,6 +54,21 @@ Most of our code is .NET, so we have used standard Solution-based structure. The
 * **StreamGenerator** is a simple console app which sends stream of bytes to the API (from properly formatted WAV file).
 * **TranslationOrchestrator** is a set of Azure Functions which take care of translating text to all supported languages in parallel and sending notification to *AttendeeApi*.
 
-## Limitations
+## Azure resources
 
-In its current state, the solution works from start to end. There are a few steps to optimize - especially the UI and SignalR communication - but overall the process is functional.
+Name, Type, Description
+
+| Name                 | Type                 | Description                                                  |
+| -------------------- | -------------------- | ------------------------------------------------------------ |
+| attendee             | Web App              | Hosting for attendee client app. <br />Could be also Storage with static page hosting. |
+| attendeeapi          | Web App              | SignalR Hub for attendee client.                             |
+| hubapi               | Web App              | SignalR Hub for speaker client.<br />Hosting for speaker client app.<br />Application settings:<br />- `EventGridHost`<br />- `EventGridKey`<br />- `SpeechToTextApiKey`<br />- `StorageConnectionString`<br />- WebSockets -> On |
+| orchestrator         | Function App         | Application settings:<br />- `AttendeeApiUrl`<br />- `AzureWebJobsStorage`<br />- `ServiceBusConnection` (unused)<br />- `StorageConnectionString`<br />- `TranslatorServiceKey` |
+| orchestratorPlan     | App Service Plan     | Consumption plan for *orchestrator* Function App.            |
+| hubPlan              | App Service Plan     | App Service Plan for all other App Services.                 |
+| speech               | Speech (preview)     | Speech to Text API                                           |
+| translate            | Translator Text      | Translator API                                               |
+| translation-insights | Application Insights | Telemetry tied to *orchestrator* Function App.               |
+| transcript           | Event Grid Topic     | Topic with event subscription.<br />Sending event type `TranscriptAdded` to *orchestrator* Function. |
+| storage              | Storage Account      | Common Storage account for transcripts, translations and *orchestrator*. |
+
