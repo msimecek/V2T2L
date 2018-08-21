@@ -29,7 +29,8 @@ Technology used:
 * **ASP.NET Core** - web APIs
 * **Cognitive Services** - speech to text
 * **Blob Storage** - storing of transcripts & translations
-* **Storage Queues** - decoupling backend communication
+* **Event Grid** - triggers the process when new transcript is ready
+* **Storage Queues** - decoupling backend communication between translation and messaging part
 * **Azure Functions** - orchestration of translations, sending results to attendees
 * **Microsoft Translator** - translation to various languages, with neural networks (where possible)
 
